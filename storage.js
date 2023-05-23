@@ -1,5 +1,5 @@
 function createNewRide(){
-    const rideID = new Date.now
+    const rideID =  Date.now()
     const rideRecord = {
         data:[],
         startTime:rideID,
@@ -9,10 +9,12 @@ function createNewRide(){
         return rideID
 }
     function addPosition(rideID, position){
-       
-       console.log(rideID, position)
-        // const rideRecord = getRideRecord(rideID)
+         
+        const rideRecord = getRideRecord(rideID)
+        const newData ={
+            
+        }
     }
     function getRideRecord(rideID){
-        return JSON.parse(localStorage.getItem(rideID));
+        return localStorage.getItem(rideID)
     }
