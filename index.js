@@ -36,9 +36,12 @@ async function getLocationData(latitude,longitude){
 
 }
 function getMaxspeed(speed){
+    console.log(speed)
     let maxSpeed = 0;
-    if (speed.speed =! null && speed.Speed > maxSpeed){
-        maxSpeed = speed.speed
-    } 
-    return maxSpeed;
+    speed.forEach(()=>{
+        if (speed.speed != null && speed.Speed > maxSpeed){
+            maxSpeed = speed.speed
+        } 
+        return maxSpeed;
+    })
 }
