@@ -2,20 +2,43 @@ const rideListElement = document.querySelector("#rideList")
 const allRide = getAllRide()
 
 
-allRide.forEach(([id, value])=>{
-
+allRide.forEach(async ([rideID, value])=>{
+   
     const ride = JSON.parse(value)
-    console.log(ride)
+    ride.id = rideID ;
+
+    const firstPosition = ride.data[0]
+    const firstPostiondata = await getLocationData(firstPosition.latitude,firstPosition.longitude)
+
     const itemElement = document.createElement("li")
-    itemElement.innerText = getCurrentDate()
+    itemElement.id = ride.id
+
+    const divCity = document.createElement("div")
+    divCity.innerText = `${firstPostiondata.city} - ${firstPostiondata.countryCode}`
+
+    const Speed = document.createElement("div")
+    maxSpeed = getMaxspeed(ride.data)
+    Speed.innerText = maxSpeed
+
+    
+    itemElement.appendChild(divCity)
+    itemElement.appendChild(Speed)
     rideListElement.appendChild(itemElement)
 })
 
-function getCurrentDate() {
-    const date = new Date();
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Adiciona 1 ao mês, pois janeiro é representado por 0
-    const year = String(date.getFullYear()).slice(-2); // Obtém os dois últimos dígitos do ano
-  
-    return `${day}/${month}/${year}`;
-  }
+
+
+async function getLocationData(latitude,longitude){
+    const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&=localityLanguage=en`;
+
+    const response = await fetch(url)
+    return await response.json()
+
+}
+function getMaxspeed(speed){
+    let maxSpeed = 0;
+    if (speed.speed =! null && speed.Speed > maxSpeed){
+        maxSpeed = speed.speed
+    } 
+    return maxSpeed;
+}
