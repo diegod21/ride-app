@@ -23,9 +23,17 @@ allRide.forEach(async ([rideID, value])=>{
     const distance = document.createElement("div")
     distance.innerText = `Distancia:${getDistance(ride.data)} Km`
 
+    const duration = document.createElement("div")
+    duration.innerText = `Duration: ${getDuration(ride)}`
+
+    const currentData = document.createElement("div")
+    currentData.innerText = `${getData(ride)}`
+
     itemElement.appendChild(divCity)
     itemElement.appendChild(distance)
     itemElement.appendChild(Speed)
+    itemElement.appendChild(duration)
+    itemElement.appendChild(currentData)
     rideListElement.appendChild(itemElement)
 })
 
@@ -39,7 +47,6 @@ async function getLocationData(latitude,longitude){
 
 }
 function getMaxspeed(position){
-    console.log(position)
     let maxSpeed = 0;
     position.forEach((position)=>{
         if (position.speed != null && position.speed > maxSpeed){
@@ -85,4 +92,47 @@ function getDistance(positions) {
     }
 
     return totalDistance.toFixed(2)
+}
+function getDuration(ride){
+
+    let totalDuration = ride.stopTime - ride.startTime
+
+    var segundos = Math.floor(totalDuration / 1000);
+
+    let leftSeconds = segundos%60;
+
+    // Calcula o número de horas
+    var horas = Math.floor(segundos / 3600);
+  
+    // Calcula o número de minutos restantes
+    var minutos = Math.floor((segundos % 3600) / 60);
+  
+    // Retorna uma string no formato "horas:minutos"
+
+    let result = 0
+
+    if(horas > 1){
+        result = String(horas).padStart(2,0) + ":" + String(minutos).padStart(2,0) + "H";
+        return result;
+    }
+    else{
+        result = String(minutos).padStart(2,0) + ":" + String(leftSeconds).padStart(2,0) + "-min";
+        return result;}
+    
+}
+function getData(ride){
+    let d = new Date(ride.startTime)
+
+    const day = d.toLocaleDateString("pt-BR", {day: "numeric"})
+    const month = d.toLocaleDateString("pt-BR", {month: "short"})
+    const year = d.toLocaleDateString("pt-BR", {year: "2-digit"})
+
+    const min = d.toLocaleString("pt-BR", {minute: "2-digit"})
+    const hour = d.toLocaleString("pt-BR", {hour: "2-digit"})
+
+
+
+
+
+    return ` ${hour}:${min} - ${day} ${month}, ${year} `;
 }
