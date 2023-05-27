@@ -7,21 +7,33 @@ allRide.forEach(async ([rideID, value])=>{
     const ride = JSON.parse(value)
     ride.id = rideID ;
 
+    const itemElement = document.createElement("li")
+    itemElement.id = ride.id
+    itemElement.className = "d-flex p-1 align-items-center shadow-sm mb-1 gap-1"
+    rideListElement.appendChild(itemElement)
+
     const firstPosition = ride.data[0]
     const firstPostiondata = await getLocationData(firstPosition.latitude,firstPosition.longitude)
 
-    const itemElement = document.createElement("li")
-    itemElement.id = ride.id
+    const mapElement = document.createElement("div")
+    mapElement.classList.add("b-img")
+    
+
+    const dataElement = document.createElement("div")
+    dataElement.className ="flex-fill d-flex flex-column"
+
 
     const divCity = document.createElement("div")
     divCity.innerText = `${firstPostiondata.city} - ${firstPostiondata.countryCode}`
+    divCity.className ="text-primary mb-2"
 
     const Speed = document.createElement("div")
     maxSpeed = getMaxspeed(ride.data)
     Speed.innerText = `Max Speed:${maxSpeed} Km/h`
+    Speed.className = "h5"
 
     const distance = document.createElement("div")
-    distance.innerText = `Distancia:${getDistance(ride.data)} Km`
+    distance.innerText = `Distance:${getDistance(ride.data)} Km`
 
     const duration = document.createElement("div")
     duration.innerText = `Duration: ${getDuration(ride)}`
@@ -29,12 +41,15 @@ allRide.forEach(async ([rideID, value])=>{
     const currentData = document.createElement("div")
     currentData.innerText = `${getData(ride)}`
 
-    itemElement.appendChild(divCity)
-    itemElement.appendChild(distance)
-    itemElement.appendChild(Speed)
-    itemElement.appendChild(duration)
-    itemElement.appendChild(currentData)
-    rideListElement.appendChild(itemElement)
+    dataElement.appendChild(divCity)
+    dataElement.appendChild(Speed)
+    dataElement.appendChild(distance)
+    dataElement.appendChild(duration)
+    dataElement.appendChild(currentData)
+
+    itemElement.appendChild(mapElement)
+    itemElement.appendChild(dataElement)
+
 })
 
 
