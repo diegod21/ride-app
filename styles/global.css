@@ -15,5 +15,8 @@
 .b-img{
     width: 100px;
     height: 100px;
+}
+#detailMap{
+    height: 300px;
     background-color: gray;
 }

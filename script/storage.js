@@ -8,6 +8,10 @@ function createNewRide(){
     localStorage.setItem(rideID.toString(), JSON.stringify(rideRecord))
         return rideID // Retorna o rideID como resultado da função createNewRide().
 }
+
+    function deleteRide(rideID){
+        localStorage.removeItem(rideID)
+    }
     function addPosition(rideID, position){
          
         const rideRecord = getRideRecord(rideID)
